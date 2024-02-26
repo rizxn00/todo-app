@@ -1,10 +1,10 @@
 ### A Todo-App using react, express, nodejs, mongodb, tailwindcss, shadcn 
 
 # Features: 
--> Add a Todo
--> Edit Todo
--> Delete Todo
--> Light-Mode / Dark-Mode
+- Add a Todo
+- Edit Todo
+- Delete Todo
+- Light-Mode / Dark-Mode
 
 ## Run 
 
