@@ -8,7 +8,7 @@
 
 ## Run 
 
-cd front-end
+`cd front-end`
 `npm i`
 `npm start`
 
