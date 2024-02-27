@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import Loader from "../components/component/loading";
 import { Button } from "../components/ui/button";
 import {
   Card,
@@ -8,9 +9,9 @@ import {
   CardTitle,
 } from "..//components/ui/card";
 import { Input } from "../components/ui/input";
-import { Pencil, Plus, Trash2, Terminal  } from "lucide-react";
+import { Pencil, Plus, Trash2, Terminal } from "lucide-react";
 import axios from "axios";
-import { Alert, AlertDescription, AlertTitle } from "../components/ui/alert";
+import { Alert, AlertTitle } from "../components/ui/alert";
 import {
   Dialog,
   DialogContent,
@@ -27,6 +28,8 @@ function Home() {
   const [open, setOpen] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState(null);
   const [isDark, setIsDark] = useState(false);
+  const [loading, setLoading] = useState(true)
+  const inpref = useRef(null)
 
   useEffect(() => {
     const darkMode = localStorage.getItem("dark-mode") === "true";
@@ -54,25 +57,33 @@ function Home() {
         .post("http://localhost:8000/todo", { todo: todo })
         .then((res) => {
           console.log(res.data);
-          window.location.reload();
         })
         .catch((err) => {
           console.log(err);
         });
     }
+    setTodo('')
+    inpref.current.focus()
   };
 
   useEffect(() => {
     axios
       .get("http://localhost:8000/gettodo")
       .then((res) => {
-        getTodos(res.data);
-        console.log(todos);
+          getTodos(res.data);
+          setTimeout(() => setLoading(false), 600);
+          console.log(todos);
       })
       .catch((err) => console.log(err));
-  }, []);
+  },);
 
   const handleEdit = (id) => {
+    if (!todo) {
+      setOpen(true);
+      setTimeout(() => {
+        setOpen(false);
+      }, 5000);
+    } else {
     axios
       .post("http://localhost:8000/edittodo", { id: id, todo: todo })
       .then((res) => {
@@ -80,6 +91,7 @@ function Home() {
         window.location.reload();
       })
       .catch((err) => console.log(err));
+    }
   };
 
   const handleDelete = (id) => {
@@ -92,12 +104,14 @@ function Home() {
       .catch((err) => console.log(err));
   };
 
+  if (loading) return <Loader/>
+  else{
+
   return (
-    <div className="flex items-center justify-center  mt-10 mb-2 px-4 sm:px-0 ">
+    <div className="flex items-center justify-center  mt-10 mb-5 px-4 sm:px-0 ">
       <div className="fixed top-5 right-5">
         <button onClick={toggleTheme} className="p-2">
           {isDark ? (
-            
             <svg
               className="hidden dark:block"
               width="16"
@@ -132,7 +146,6 @@ function Home() {
           )}
         </button>
       </div>
-
       <Card className="w-full sm:w-2/6 md:w-2/4 lg:w-1/3 xl:w-2/6 overflow-hidden shadow-xl shadow-blue-grey-500/30 dark:shadow-gray-900 dark:bg-zinc-900 mt-5">
         <CardHeader>
           <CardTitle className=" text-3xl text-center font-bold  hover:tracking-widest transition-all">
@@ -145,6 +158,7 @@ function Home() {
           <form onSubmit={handleSubmit}>
             <div className="flex w-full max-w-sm items-center space-x-2 ">
               <Input
+                ref={inpref}
                 name="todoinput"
                 placeholder="what's on your mind"
                 className=" focus-visible:ring-transparent capitalize"
@@ -157,6 +171,7 @@ function Home() {
             </div>
           </form>
         </CardContent>
+        
         {todos.map((todoItem, index) => {
           return (
             <div className="flex space-x-2 mr-3 ml-3 mb-5" key={todoItem._id}>
@@ -187,6 +202,7 @@ function Home() {
                       key={selectedTodo._id}
                       defaultValue={selectedTodo.todo}
                       className="w-full"
+                      required
                       onChange={(e) => setTodo(e.target.value)}
                     />
                     <DialogFooter>
@@ -214,15 +230,15 @@ function Home() {
       </Card>
       <div className={open ? "" : "hidden"}>
         <div className=" fixed right-5 bottom-5">
-        <Alert >
-      <Terminal className="h-4 w-4" />
-      <AlertTitle className="pr-10">Input Is Empty</AlertTitle>
-      
-    </Alert>
+          <Alert>
+            <Terminal className="h-4 w-4" />
+            <AlertTitle className="pr-10">Input Is Empty</AlertTitle>
+          </Alert>
         </div>
       </div>
     </div>
   );
+}
 }
 
 export default Home;

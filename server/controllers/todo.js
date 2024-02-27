@@ -6,7 +6,6 @@ module.exports.createtodo = (req, res) => {
     TodoModel.create({ todo: todo })
         .then((data) => {
             console.log("Todo Added...");
-            console.log(data)
             res.send(data)
         }).catch((err) => console.log(err))
 }
@@ -14,7 +13,6 @@ module.exports.createtodo = (req, res) => {
 module.exports.gettodo = (req, res) => {
     TodoModel.find()
         .then((data) => {
-            console.log(data);
             res.send(data)
         }).catch((err) => console.log(err))
 }
