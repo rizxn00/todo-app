@@ -1,4 +1,4 @@
-### A Todo-App using react, express, nodejs, mongodb, tailwindcss, shadcn 
+### A Todo-App using React, Express, Node JS, MongoDB, TailwindCSS, Shadcn 
 
 # Features: 
 - Add a Todo
@@ -16,13 +16,13 @@
 
 `cd backend`
 
-create an .env file and paste your MongoDB cluster url as #MONGODB_URL = url
+create an .env file and paste your MongoDB cluster url as #MONGODB_URL = `url`
 
 `npm i`
 
 `npm start`
 
-# That's it Add a todo now
+# That's it Add a TO-DO now
 
 
 
