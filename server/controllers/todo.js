@@ -5,16 +5,15 @@ module.exports.createtodo = (req, res) => {
 
     TodoModel.create({ todo: todo })
         .then((data) => {
-            console.log("Todo Added...");
             res.send(data)
-        }).catch((err) => console.log(err))
+        }).catch((err) => err)
 }
 
 module.exports.gettodo = (req, res) => {
     TodoModel.find()
         .then((data) => {
             res.send(data)
-        }).catch((err) => console.log(err))
+        }).catch((err) => err)
 }
 
 module.exports.deletetodo = (req, res) => {
@@ -23,7 +22,7 @@ module.exports.deletetodo = (req, res) => {
     TodoModel.findByIdAndDelete(id)
         .then((data) => {
             res.send(data)
-        }).catch((err) => console.log(err))
+        }).catch((err) => err)
 }
 
 module.exports.updatetodo = (req, res) => {
@@ -31,5 +30,5 @@ module.exports.updatetodo = (req, res) => {
     TodoModel.findByIdAndUpdate(id, {todo:todo})
     .then((data) => {
         res.send(data)
-    }).catch((err) => console.log(err))
+    }).catch((err) => err)
 }

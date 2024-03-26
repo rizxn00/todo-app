@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import Loader from "../components/component/loading";
 import { Button } from "../components/ui/button";
 import {
   Card,
@@ -7,7 +6,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "..//components/ui/card";
+} from "../components/ui/card";
 import { Input } from "../components/ui/input";
 import { Pencil, Plus, Trash2, Terminal } from "lucide-react";
 import axios from "axios";
@@ -28,7 +27,6 @@ function Home() {
   const [open, setOpen] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState(null);
   const [isDark, setIsDark] = useState(false);
-  const [loading, setLoading] = useState(true)
   const inpref = useRef(null)
 
   useEffect(() => {
@@ -56,7 +54,7 @@ function Home() {
       axios
         .post("http://localhost:8000/todo", { todo: todo })
         .then((res) => {
-          console.log(res.data);
+          return
         })
         .catch((err) => {
           console.log(err);
@@ -71,11 +69,9 @@ function Home() {
       .get("http://localhost:8000/gettodo")
       .then((res) => {
           getTodos(res.data);
-          setTimeout(() => setLoading(false), 600);
-          console.log(todos);
       })
-      .catch((err) => console.log(err));
-  },);
+      .catch((err) => err);
+  });
 
   const handleEdit = (id) => {
     if (!todo) {
@@ -90,7 +86,7 @@ function Home() {
         console.log(res);
         window.location.reload();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => err);
     }
   };
 
@@ -98,14 +94,12 @@ function Home() {
     axios
       .post("http://localhost:8000/deletetodo", { id: id })
       .then((res) => {
-        console.log(res);
         window.location.reload();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => err);
   };
 
-  if (loading) return <Loader/>
-  else{
+ 
 
   return (
     <div className="flex items-center justify-center  mt-10 mb-5 px-4 sm:px-0 ">
@@ -146,15 +140,15 @@ function Home() {
           )}
         </button>
       </div>
-      <Card className="w-full sm:w-2/6 md:w-2/4 lg:w-1/3 xl:w-2/6 overflow-hidden shadow-xl shadow-blue-grey-500/30 dark:shadow-gray-900 dark:bg-zinc-900 mt-5">
+      <Card className="w-6/6 sm:w-4/6 md:w-2/4 lg:w-3/6 xl:w-2/6 overflow-hidden shadow-xl shadow-blue-grey-500/30 dark:shadow-slate-800 dark:shadow-md dark:bg-zinc-900 mt-5 font-poppins">
         <CardHeader>
-          <CardTitle className=" text-3xl text-center font-bold  hover:tracking-widest transition-all">
+          <CardTitle className=" text-3xl text-center font-semibold  hover:tracking-widest transition-all">
             To-Do
           </CardTitle>
 
           <CardDescription className="text-center">add a todo</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="flex justify-center">
           <form onSubmit={handleSubmit}>
             <div className="flex w-full max-w-sm items-center space-x-2 ">
               <Input
@@ -174,7 +168,7 @@ function Home() {
         
         {todos.map((todoItem, index) => {
           return (
-            <div className="flex space-x-2 mr-3 ml-3 mb-5" key={todoItem._id}>
+            <div className="flex space-x-2 mr-3 ml-3 mb-5 justify-center" key={todoItem._id}>
               <Card className="flex items-center justify-center overflow-hidden shadow-lg shadow-blue-grey-500/20 max-h-11">
                 <CardContent className=" w-80">
                   <p className="mt-5 capitalize">{todoItem.todo}</p>
@@ -239,6 +233,6 @@ function Home() {
     </div>
   );
 }
-}
+
 
 export default Home;
