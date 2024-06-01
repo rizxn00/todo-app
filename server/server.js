@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 8000;
 const routes =require('./routers/routes')
 app.use (express. json ())
 app.use (cors ({
-    origin:['http://localhost:3000'],
+    origin:['https://todo-app-frontend-indol-beta.vercel.app'],
     methods:['GET','POST'],
     credentials:true
 }))
