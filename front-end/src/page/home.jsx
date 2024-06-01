@@ -22,6 +22,9 @@ import {
 } from "../components/ui/dialog";
 
 function Home() {
+
+  const API_BASE_URL = process.env.REACT_APP_BACKEND_URL;
+
   const [todo, setTodo] = useState("");
   const [todos, getTodos] = useState([]);
   const [open, setOpen] = useState(false);
@@ -52,7 +55,7 @@ function Home() {
       }, 5000);
     } else {
       axios
-        .post("http://localhost:8000/todo", { todo: todo })
+        .post(`${API_BASE_URL}/todo`, { todo: todo })
         .then((res) => {
           return
         })
@@ -66,7 +69,7 @@ function Home() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/gettodo")
+      .get(`${API_BASE_URL}/gettodo`)
       .then((res) => {
           getTodos(res.data);
       })
@@ -81,10 +84,9 @@ function Home() {
       }, 5000);
     } else {
     axios
-      .post("http://localhost:8000/edittodo", { id: id, todo: todo })
+      .post(`${API_BASE_URL}/edittodo`, { id: id, todo: todo })
       .then((res) => {
         console.log(res);
-        window.location.reload();
       })
       .catch((err) => err);
     }
@@ -92,9 +94,8 @@ function Home() {
 
   const handleDelete = (id) => {
     axios
-      .post("http://localhost:8000/deletetodo", { id: id })
+      .post(`${API_BASE_URL}/deletetodo`, { id: id })
       .then((res) => {
-        window.location.reload();
       })
       .catch((err) => err);
   };
