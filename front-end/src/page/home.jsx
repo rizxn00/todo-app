@@ -24,7 +24,7 @@ import {
 function Home() {
 
   const API_BASE_URL = process.env.REACT_APP_BACKEND_URL;
-
+  
   const [todo, setTodo] = useState("");
   const [todos, getTodos] = useState([]);
   const [open, setOpen] = useState(false);
@@ -156,7 +156,7 @@ function Home() {
                 ref={inpref}
                 name="todoinput"
                 placeholder="what's on your mind"
-                className=" focus-visible:ring-transparent capitalize"
+                className=" focus-visible:ring-transparent normal-case"
                 value={todo}
                 onChange={(e) => setTodo(e.target.value)}
               />
@@ -171,8 +171,8 @@ function Home() {
           return (
             <div className="flex space-x-2 mr-3 ml-3 mb-5 justify-center" key={todoItem._id}>
               <Card className="flex items-center justify-center overflow-hidden shadow-lg shadow-blue-grey-500/20 max-h-11">
-                <CardContent className=" w-80">
-                  <p className="mt-5 capitalize">{todoItem.todo}</p>
+                <CardContent className="w-80 h-auto pt-2 pb-2">
+                  <p className="overflow-auto normal-case">{todoItem.todo}</p>
                 </CardContent>
               </Card>
               <Dialog>
