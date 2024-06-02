@@ -1,33 +1,33 @@
 const TodoModel = require('../models/todo')
 
-module.exports.createtodo = (req, res) => {
+module.exports.createtodo = async(req, res) => {
     const { todo } = req.body
 
-    TodoModel.create({ todo: todo })
+    await TodoModel.create({ todo: todo })
         .then((data) => {
             res.send(data)
         }).catch((err) => err)
 }
 
-module.exports.gettodo = (req, res) => {
-    TodoModel.find()
+module.exports.gettodo = async(req, res) => {
+    await TodoModel.find()
         .then((data) => {
             res.send(data)
         }).catch((err) => err)
 }
 
-module.exports.deletetodo = (req, res) => {
+module.exports.deletetodo = async(req, res) => {
     const { id } = req.body
 
-    TodoModel.findByIdAndDelete(id)
+    await TodoModel.findByIdAndDelete(id)
         .then((data) => {
             res.send(data)
         }).catch((err) => err)
 }
 
-module.exports.updatetodo = (req, res) => {
+module.exports.updatetodo = async(req, res) => {
     const {id, todo} = req.body
-    TodoModel.findByIdAndUpdate(id, {todo:todo})
+    await TodoModel.findByIdAndUpdate(id, {todo:todo})
     .then((data) => {
         res.send(data)
     }).catch((err) => err)
